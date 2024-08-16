@@ -9,16 +9,28 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ctrl/plex": "^3.4.0",
+    "@prisma/client": "^5.18.0",
+    "graphql": "^16.9.0",
+    "graphql-fields": "^2.0.3",
+    "graphql-scalars": "^1.23.0",
+    "graphql-yoga": "^5.7.0",
+    "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.5"
+    "reflect-metadata": "^0.2.2",
+    "tslib": "^2.6.3",
+    "type-graphql": "^2.0.0-rc.2"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/graphql-fields": "^1.3.9",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.5"
+    "eslint-config-next": "14.2.5",
+    "prisma": "^5.18.0",
+    "typegraphql-prisma": "^0.28.0",
+    "typescript": "^5"
   }
 }

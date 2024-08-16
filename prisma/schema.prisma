@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider            = "typegraphql-prisma"
+  output              = "../prisma/generated/type-graphql"
+  formatGeneratedCode = false
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Plex {
+  id        Int           @id @default(autoincrement())
+  plexId    Int
+  plexCode  String
+  token     String?
+  libraries PlexLibrary[]
+
+  @@unique([plexId])
+}
+
+model Sonarr {
+  id    Int    @id @default(autoincrement())
+  url   String
+  token String
+  shows Show[]
+
+  @@unique([url])
+}
+
+model Radarr {
+  id     Int     @id @default(autoincrement())
+  url    String
+  token  String
+  movies Movie[]
+
+  @@unique([url])
+}
+
+model Reddit {
+  id    Int    @id @default(autoincrement())
+  token String
+}
+
+model PlexLibrary {
+  id      Int     @id @default(autoincrement())
+  plex    Plex    @relation(fields: [plexId], references: [id])
+  plexId  Int
+  isShows Boolean
+  title   String
+
+  movies Movie[]
+  shows  Show[]
+}
+
+model Movie {
+  id            Int         @id @default(autoincrement())
+  title         String
+  radarr        Radarr      @relation(fields: [radarrId], references: [id])
+  radarrId      Int
+  plexLibrary   PlexLibrary @relation(fields: [plexLibraryId], references: [id])
+  plexLibraryId Int
+}
+
+model Show {
+  id            Int         @id @default(autoincrement())
+  title         String
+  sonarr        Sonarr      @relation(fields: [sonarrId], references: [id])
+  sonarrId      Int
+  plexLibrary   PlexLibrary @relation(fields: [plexLibraryId], references: [id])
+  plexLibraryId Int
+  seasons       Season[]
+}
+
+model Season {
+  id         Int       @id @default(autoincrement())
+  title      String?
+  number     Int
+  isSpecials Boolean
+  show       Show      @relation(fields: [showId], references: [id])
+  showId     Int
+  episodes   Episode[]
+}
+
+model Episode {
+  id       Int     @id @default(autoincrement())
+  title    String?
+  number   Int
+  season   Season  @relation(fields: [seasonId], references: [id])
+  seasonId Int
+}
