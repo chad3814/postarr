@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.4",
     "@ctrl/plex": "^3.4.0",
     "@prisma/client": "^5.18.0",
     "graphql": "^16.9.0",

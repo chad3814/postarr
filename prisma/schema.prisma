@@ -19,14 +19,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Plex {
+model PlexToken {
   id        Int           @id @default(autoincrement())
   plexId    Int
   plexCode  String
   token     String?
-  libraries PlexLibrary[]
+  plexes    Plex[]
 
   @@unique([plexId])
+}
+
+model Plex {
+  id        Int           @id @default(autoincrement())
+  name      String?
+  token     PlexToken     @relation(fields: [tokenId], references: [id])
+  tokenId   Int
+  libraries PlexLibrary[]
+
+  @@unique([name, tokenId])
 }
 
 model Sonarr {
